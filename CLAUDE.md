@@ -38,7 +38,7 @@ This is Luke Tomasovic's personal website. Read this before making changes.
 - ORCID: https://orcid.org/0000-0002-1459-3252
 - GitHub: https://github.com/lmtomasovic
 - Substack: https://luketomasovic.substack.com/
-- Email: lmtomasovic@gmail.com
+- Email: contact@luketomasovic.com
 
 ## Still to do
 
