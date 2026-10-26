@@ -35,7 +35,6 @@ This is Luke Tomasovic's personal website. Read this before making changes.
 - LinkedIn: https://www.linkedin.com/in/luketomasovic
 - X: https://x.com/luketomasovic11
 - Google Scholar: https://scholar.google.com/citations?user=PSj0g8gAAAAJ&hl=en
-- ORCID: https://orcid.org/0000-0002-1459-3252
 - GitHub: https://github.com/lmtomasovic
 - Substack: https://luketomasovic.substack.com/
 - Email: contact@luketomasovic.com

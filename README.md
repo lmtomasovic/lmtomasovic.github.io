@@ -13,7 +13,7 @@ My personal website. Plain HTML and CSS, no build step, hosted free on GitHub Pa
 | `other.html` | Ventures, bookshelf (links to Goodreads), side projects |
 | `404.html` | Shown when someone visits a page that doesn't exist |
 | `assets/style.css` | All colors, fonts and layout |
-| `assets/icons.svg` | The LinkedIn, X, Scholar, ORCID, GitHub, Substack and email icons |
+| `assets/icons.svg` | The LinkedIn, X, Scholar, GitHub, Substack and email icons |
 | `assets/favicon.svg` | The "LT" browser-tab icon |
 | `assets/photo.jpg` | My headshot |
 | `CLAUDE.md` | Notes that Claude Code reads before editing the site |
