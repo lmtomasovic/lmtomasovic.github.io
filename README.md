@@ -16,6 +16,8 @@ My personal website. Plain HTML and CSS, no build step, hosted free on GitHub Pa
 | `assets/icons.svg` | The LinkedIn, X, Scholar, GitHub, Substack and email icons |
 | `assets/favicon.svg` | The "LT" browser-tab icon |
 | `assets/photo.jpg` | My headshot |
+| `assets/og-card.png` | The preview image shown when the site is shared on LinkedIn, X or Slack |
+| `CNAME` | Points GitHub Pages at luketomasovic.com. Do not delete. |
 | `CLAUDE.md` | Notes that Claude Code reads before editing the site |
 
 ## How to update the site
@@ -35,30 +37,38 @@ If you'd rather edit by hand, every page is a normal HTML file. Open it in any t
 
 ## Publishing
 
-### First time: put it on GitHub Pages
+The site is live at **https://luketomasovic.com**. It is already set up, so
+there is nothing to configure. This section is just a record of how it works.
 
-1. On GitHub, create a new public repository named `lmtomasovic.github.io`.
-2. Upload every file in this folder to it (the "Add file → Upload files" button works; keep the `assets` folder).
-3. In the repository, go to **Settings → Pages**. Under "Build and deployment," choose **Deploy from a branch**, pick `main` and `/ (root)`, and save.
-4. After a minute or two the site is live at `https://lmtomasovic.github.io`.
+### How it is wired up
 
-### After that
+- Repository: `lmtomasovic/lmtomasovic.github.io` (public)
+- GitHub Pages serves the `main` branch from the root, with Enforce HTTPS on
+- The `CNAME` file in this folder is what points Pages at the custom domain. Do not delete it.
+- DNS is at Cloudflare: four `A` records on `@` pointing at GitHub
+  (`185.199.108.153`, `.109`, `.110`, `.111`), and a `CNAME` on `www` to
+  `lmtomasovic.github.io`. Every record is **DNS only** (gray cloud), not
+  proxied, because Cloudflare's proxy blocks GitHub's HTTPS certificate renewal.
+- Email: Cloudflare Email Routing forwards `contact@luketomasovic.com` to Gmail.
 
-Every time you upload changed files (or Claude Code pushes a commit), GitHub Pages republishes within a minute or two.
+### Publishing a change
 
-### Connect luketomasovic.com
+From this folder:
 
-1. Buy `luketomasovic.com` from any registrar (Cloudflare, Porkbun, Namecheap and Squarespace Domains all work).
-2. In the repository's **Settings → Pages → Custom domain**, enter `luketomasovic.com` and save. GitHub adds a `CNAME` file for you.
-3. At your registrar, add these DNS records:
-   - Four `A` records for `@` pointing to `185.199.108.153`, `185.199.109.153`, `185.199.110.153` and `185.199.111.153`
-   - One `CNAME` record for `www` pointing to `lmtomasovic.github.io`
-4. Back in Settings → Pages, once the domain check passes, tick **Enforce HTTPS**. DNS can take up to a day to settle.
+```bash
+git add -A && git commit -m "what changed" && git push
+```
+
+GitHub Pages republishes within a minute or two.
 
 ### Turn on visitor counts (GoatCounter)
 
+Not set up yet. To do it:
+
 1. Sign up at goatcounter.com and pick a code, for example `luketomasovic`.
 2. In every `.html` file, find the GoatCounter comment near the top, replace `YOURCODE` with your code, and remove the `<!--` and `-->` lines around the script. (Or ask Claude Code to do it.)
+
+Cloudflare Web Analytics is a free alternative that works without the proxy.
 
 ## Preview locally
 

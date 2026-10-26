@@ -39,7 +39,18 @@ This is Luke Tomasovic's personal website. Read this before making changes.
 - Substack: https://luketomasovic.substack.com/
 - Email: contact@luketomasovic.com
 
+## Setup that is already done
+
+- Live at https://luketomasovic.com, served by GitHub Pages from
+  `lmtomasovic/lmtomasovic.github.io`, HTTPS enforced. DNS at Cloudflare, every
+  record DNS-only (the proxy breaks GitHub's certificate renewal).
+- `contact@luketomasovic.com` forwards to Gmail via Cloudflare Email Routing.
+- Every page has og/twitter tags pointing at `assets/og-card.png`, a 1200x630
+  card built from the site's own fonts and colors. Regenerate it if the name,
+  tagline or headshot changes.
+
 ## Still to do
 
-- Turn on GoatCounter once Luke has an account (see README).
-- Connect the domain once purchased (see README).
+- Turn on GoatCounter once Luke has an account (see README), or use Cloudflare
+  Web Analytics instead.
+- The Writing page is still a placeholder. The Substack has no posts yet.

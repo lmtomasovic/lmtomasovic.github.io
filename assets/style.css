@@ -222,16 +222,7 @@ section + section { margin-top: 48px; }
   color: var(--muted);
   margin-top: 4px;
 }
-.paper {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: 8px;
-}
-.paper a { color: var(--muted); }
-.paper a:hover { color: var(--accent); }
-
-/* ---------- lists (writing, other) ---------- */
+/* ---------- lists (writing, other, research papers) ---------- */
 
 .entries { list-style: none; margin: 0; padding: 0; }
 .entries li { padding: 14px 0; border-bottom: 1px solid var(--line); }
