@@ -17,6 +17,7 @@ My personal website. Plain HTML and CSS, no build step, hosted free on GitHub Pa
 | `assets/favicon.svg` | The "LT" browser-tab icon |
 | `assets/photo.jpg` | My headshot |
 | `assets/og-card.png` | The preview image shown when the site is shared on LinkedIn, X or Slack |
+| `scripts/make-og-card.py` | Rebuilds that preview image. Only needed if the name, tagline or photo changes |
 | `CNAME` | Points GitHub Pages at luketomasovic.com. Do not delete. |
 | `CLAUDE.md` | Notes that Claude Code reads before editing the site |
 
@@ -28,12 +29,30 @@ If you'd rather edit by hand, every page is a normal HTML file. Open it in any t
 
 ### Common edits
 
-- **Change my photo.** Save a new square photo as `assets/photo.jpg`, replacing the old one. No code change needed. About 400×400 pixels is plenty.
-- **Update "Now".** In `index.html`, edit the three lines under `Now` and change "Updated October 2026."
+- **Change my photo.** Save a new square photo as `assets/photo.jpg`, replacing the old one. About 400×400 pixels is plenty. The photo also appears on the share card, so rebuild that afterwards (see below).
+- **Update "Now".** In `index.html`, edit the lines under `Now` and change "Updated October 2026."
 - **Add a Substack post.** In `writing.html`, there's a commented-out example list. Copy one `<li>…</li>` block per post, newest first, and delete the "Nothing here yet" box.
 - **Add a venture or project.** In `other.html`, copy an existing `<li>…</li>` line and change the words.
 - **Change the accent color.** In `assets/style.css`, change `--accent` (light mode) and the two `--accent` lines under the dark mode sections.
 - **Change a link.** The icon links appear on every page (home and footer). Ask Claude Code to "change my LinkedIn link everywhere," or search all files for the old address.
+
+### Rebuild the share card
+
+`assets/og-card.png` is the image LinkedIn, X and Slack show when someone posts
+a link to the site. It does not update itself. If you change your photo, your
+name or the tagline, rebuild it:
+
+```bash
+pip install Pillow
+python3 scripts/make-og-card.py
+```
+
+The first run downloads the two fonts; later runs are offline. If you changed
+the name or tagline, edit the three lines near the top of that script to match
+before running it.
+
+Already-shared links keep the old image until the site that cached it refetches.
+LinkedIn's [Post Inspector](https://www.linkedin.com/post-inspector/) forces a refresh.
 
 ## Publishing
 

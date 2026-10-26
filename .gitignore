@@ -1,0 +1,5 @@
+# Fonts downloaded by scripts/make-og-card.py on first run
+scripts/.font-cache/
+
+# macOS
+.DS_Store
