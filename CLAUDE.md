@@ -24,8 +24,8 @@ This is Luke Tomasovic's personal website. Read this before making changes.
 - Keep it accessible to general readers as well as scientists.
 - Do not include: GPA, total publication count, personal hobbies, a CV link, or anything about job searching.
 - Do not describe unpublished work, including the "stapler" antibody and logic-gated IL-2 projects, until Luke says it's published.
-- Research page is all about immunoengineering and protein design. Three short sections: (1) Conditionally active IL-2/antibody fusion proteins, (2) Computationally designed protein-based therapeutics, (3) Engineering bispecific antibodies. Each has a brief high-level description and a "Papers:" line (and for section 1, a "Presentations:" line). No transplant section, no keywords lines.
-- The PEGS 2026 poster is hosted locally at `assets/pegs-2026-poster.pdf` and linked from the Presentations line in `research.html`. Luke decided not to list BMES 2025.
+- Research page is all about immunoengineering and protein design. Three short sections: (1) Conditionally active IL-2/antibody fusion proteins, (2) Computationally designed protein-based therapeutics, (3) Engineering bispecific antibodies. Each has a brief high-level description and a "Papers:" line. No transplant section, no keywords lines, no presentations.
+- The PEGS 2026 poster file is still in the repo at `assets/pegs-2026-poster.pdf` but nothing links to it. Luke removed the Presentations line and decided not to list BMES 2025.
 - Writing page lists Substack posts in this format: date, category, title (linked), one-line subtitle. Newest first.
 - No talks or awards section on the Research page. Luke decided against it.
 - Other page has three sections: Ventures, Bookshelf (a link to Luke's Goodreads, https://www.goodreads.com/review/list/69780414) and Side projects. Luke decided against a teaching section.
