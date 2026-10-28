@@ -18,6 +18,8 @@ My personal website. Plain HTML and CSS, no build step, hosted free on GitHub Pa
 | `assets/photo.jpg` | My headshot |
 | `assets/og-card.png` | The preview image shown when the site is shared on LinkedIn, X or Slack |
 | `scripts/make-og-card.py` | Rebuilds that preview image. Only needed if the name, tagline or photo changes |
+| `assets/il2-receptor-*` | The spinning structure on the Research page, rendered once per theme |
+| `scripts/make-structure-spin.py` | Rebuilds those animations, and makes new ones for other projects |
 | `CNAME` | Points GitHub Pages at luketomasovic.com. Do not delete. |
 | `CLAUDE.md` | Notes that Claude Code reads before editing the site |
 
@@ -53,6 +55,29 @@ before running it.
 
 Already-shared links keep the old image until the site that cached it refetches.
 LinkedIn's [Post Inspector](https://www.linkedin.com/post-inspector/) forces a refresh.
+
+### Add a structure animation to a Research section
+
+Each animated structure is a short video of the molecule turning, rendered
+twice: once on the light page background and once on the dark one, so it looks
+like part of the page in either theme.
+
+To add one for another project, open `scripts/make-structure-spin.py`, copy the
+block in `STRUCTURES`, and give it a PDB ID, the chains to show and a colour per
+chain. Then:
+
+```bash
+brew install pymol ffmpeg
+python3 scripts/make-structure-spin.py
+```
+
+It prints the pixel dimensions to put in the `<video>` tags. Copy the `<figure
+class="structure">` block in `research.html` and point it at the new filenames.
+Rendering takes a few minutes per structure.
+
+Colours are baked into the video, so the swatches in the figure caption are set
+separately in `assets/style.css` (the `.key-*` rules). If you change a chain
+colour, change it in both places.
 
 ## Publishing
 

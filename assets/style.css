@@ -222,6 +222,57 @@ section + section { margin-top: 48px; }
   color: var(--muted);
   margin-top: 4px;
 }
+
+/* Structure figures. Each animation is rendered twice, once on each page
+   background, so the clip reads as part of the page rather than as a panel
+   sitting on it. The chain colours below are baked into those renders, so
+   unlike the rest of the palette they must NOT change between light and dark.
+   The theme rules mirror the --bg rules at the top of this file, honouring
+   both the system setting and a data-theme override. */
+.structure { margin: 22px 0 6px; }
+.structure .spin,
+.structure .spin-still img {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  margin: 0 auto;
+}
+.structure .spin-dark,
+.structure .spin-still { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .structure .spin-light { display: none; }
+  :root:not([data-theme="light"]) .structure .spin-dark { display: block; }
+}
+:root[data-theme="dark"] .structure .spin-light { display: none; }
+:root[data-theme="dark"] .structure .spin-dark { display: block; }
+.structure figcaption {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin-top: 12px;
+}
+.structure .key { display: inline-flex; align-items: center; gap: 6px; }
+.structure .src { opacity: 0.75; }
+.structure .key::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--chain);
+}
+.key-il2   { --chain: #5d6a79; }
+.key-cd25  { --chain: #4292c6; }
+.key-cd122 { --chain: #3a9e8c; }
+.key-gc    { --chain: #eaf3fa; }
+/* gamma-c is nearly white, so its swatch needs an edge to be visible at all
+   against the light background. */
+.key-gc::before { box-shadow: inset 0 0 0 1px var(--line); }
 /* ---------- lists (writing, other, research papers) ---------- */
 
 .entries { list-style: none; margin: 0; padding: 0; }
@@ -275,4 +326,8 @@ section + section { margin-top: 48px; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+  /* Swap the spinning structure for a still. CSS cannot cancel autoplay, but
+     hiding the video stops playback in practice and the still always shows. */
+  .structure .spin { display: none !important; }
+  .structure .spin-still { display: block; }
 }

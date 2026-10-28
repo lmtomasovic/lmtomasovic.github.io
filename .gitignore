@@ -3,3 +3,7 @@ scripts/.font-cache/
 
 # macOS
 .DS_Store
+
+# Working files for scripts/make-structure-spin.py
+scripts/.pdb-cache/
+scripts/.spin-work/
