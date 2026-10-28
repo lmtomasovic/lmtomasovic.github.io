@@ -25,13 +25,17 @@ This is Luke Tomasovic's personal website. Read this before making changes.
 - Do not include: GPA, total publication count, personal hobbies, a CV link, or anything about job searching.
 - Do not describe unpublished work, including the "stapler" antibody and logic-gated IL-2 projects, until Luke says it's published.
 - The IL-2 section on the Research page carries a looping structure animation
-  (2ERJ: cartoon plus a translucent surface of the same colour per chain,
-  spinning about its long axis). It is rendered twice, once per page
-  background, and swapped in CSS, so it reads as part of the page rather than
-  as a panel. Rebuild with `python3 scripts/make-structure-spin.py`; add
-  further ones by copying a block in that script's STRUCTURES list. Chain
-  colours are baked into the video AND written in the `.key-*` rules in
-  style.css, so they have to be changed in both places.
+  (2ERJ: cartoon plus a translucent surface of the same colour per chain). It
+  spins about the vertical axis, so IL-2Rbeta and gamma-c keep pointing down
+  for the whole rotation; that orientation is derived from the structure in
+  the script, not hand-tuned, so do not replace it with a fixed `turn`. It is
+  rendered twice, once per page background, and swapped in CSS, so it reads as
+  part of the page rather than as a panel. Rebuild with
+  `python3 scripts/make-structure-spin.py`; add further ones by copying a
+  block in that script's STRUCTURES list. Chain colours are baked into the
+  video AND written in the `.key-*` rules in style.css, so they have to be
+  changed in both places. Caption labels are IL-2, IL-2Ralpha, IL-2Rbeta,
+  gamma-c; Luke does not want the PDB ID shown.
 - Research page is all about immunoengineering and protein design. Three short sections: (1) Conditionally active IL-2/antibody fusion proteins, (2) Computationally designed protein-based therapeutics, (3) Engineering bispecific antibodies. Each has a brief high-level description and a Papers list. Papers use the shared `.entries` list style: a mono `.meta` line (journal, year, and "Review" where it applies) above the linked title. No transplant section, no keywords lines, no presentations.
 - The PEGS 2026 poster file is still in the repo at `assets/pegs-2026-poster.pdf` but nothing links to it. Luke removed the Presentations line and decided not to list BMES 2025.
 - Writing page lists Substack posts in this format: date, category, title (linked), one-line subtitle. Newest first.

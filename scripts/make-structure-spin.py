@@ -60,10 +60,10 @@ WORK = HERE / ".spin-work"
 BACKGROUNDS = {"light": "#fbfcfd", "dark": "#12161b"}
 
 FRAMES = 60          # 60 x 6 deg = 360
-RENDER_W = 1200      # downscaled to TARGET_W, which also smooths the edges
-TARGET_W = 820
+RENDER_W = 900       # downscaled to TARGET_W, which also smooths the edges
+TARGET_W = 460       # displayed at 240 CSS px, so still crisp on a retina screen
 MARGIN = 1.09        # the surface sits a few A outside the atom centres
-PAD = 30             # breathing room around the molecule, in render px
+PAD = 24             # breathing room around the molecule, in render px
 FPS = 10             # 60 frames / 10 fps = 6 s per revolution
 CRF = 30
 TRANSPARENCY = 0.62  # surface only; the cartoon inside stays solid
@@ -75,17 +75,55 @@ STRUCTURES = [
         # 2ERJ holds two copies of the complex (A-D and E-H) plus N-glycans in
         # I-P. One copy, no glycans, is what reads at this size.
         "chains": {
-            "D": "#5d6a79",   # IL-2
+            "D": "#94a2b2",   # IL-2
             "A": "#4292c6",   # CD25   / IL-2R alpha
             "B": "#3a9e8c",   # CD122  / IL-2R beta
             "C": "#eaf3fa",   # CD132  / common gamma
         },
+        # Spin about screen-y, so whatever points down stays pointing down.
+        "axis": "y",
+        # "down" is built from the structure rather than hand-tuned: the
+        # C-termini of IL-2Rbeta and gamma-c are where the membrane would be,
+        # so the direction from IL-2 towards them is down. Measured on 2ERJ,
+        # that puts both stalks ~26-36 A below centre and IL-2Ralpha ~22 A
+        # above it, which is the orientation in the reference figure.
+        "down_from": "D",
+        "down_to": ["B", "C"],
+        # Cosmetic: which chain starts on the left. Every azimuth is shown.
+        "left_right": ["B", "C"],
     },
 ]
 
 
 def rgb(h):
     return [int(h[i:i + 2], 16) / 255.0 for i in (1, 3, 5)]
+
+
+def unit(v):
+    return np.asarray(v, float) / np.linalg.norm(v)
+
+
+def tail_centre(obj, n=12):
+    """Mean CA position of a chain's last n residues: its membrane-proximal end."""
+    atoms = sorted(cmd.get_model(f"{obj} and name CA").atom,
+                   key=lambda a: int(a.resi))
+    return np.array([a.coord for a in atoms[-n:]]).mean(0)
+
+
+def view_rotation(spec):
+    """Camera basis that puts the spec's "down" chains at the bottom.
+
+    Returns the 3x3 whose rows are the camera's right, up and toward-viewer
+    axes in world coordinates, which is the layout PyMOL's get_view uses.
+    """
+    anchor = np.mean([tail_centre(f"ch{c}") for c in spec["down_to"]], axis=0)
+    down = unit(anchor - np.array(cmd.centerofmass(f"ch{spec['down_from']}")))
+    up = -down
+
+    a, b = spec["left_right"]
+    hint = np.array(cmd.centerofmass(f"ch{b}")) - np.array(cmd.centerofmass(f"ch{a}"))
+    right = unit(hint - np.dot(hint, up) * up)      # drop the vertical part
+    return np.array([right, up, np.cross(right, up)])
 
 
 def fetch(pdb_id):
@@ -135,28 +173,40 @@ def render(spec, theme, outdir):
     cmd.set("light_count", 2)
     cmd.set("orthoscopic", 1)
 
-    cmd.orient("all")   # longest axis horizontal, which is also the spin axis
+    R = view_rotation(spec)
+    view = list(cmd.get_view())
+    view[0:9] = R.flatten().tolist()
+    cmd.set_view(view)
 
-    R = np.array(cmd.get_view()[0:9]).reshape(3, 3)
     xyz = np.array(cmd.get_coords("all"))
     centre = xyz.mean(0)
     cam = (xyz - centre) @ R.T
-    half_x = max(abs(cam[:, 0].min()), abs(cam[:, 0].max())) * MARGIN
-    half_r = float(np.hypot(cam[:, 1], cam[:, 2]).max()) * MARGIN
-    height = int(round(RENDER_W * half_r / half_x))
 
-    corners = np.array([[sx * half_x, sy * half_r, 0.0]
+    # The spin axis keeps its own screen extent; the other two sweep into each
+    # other, so that half-extent is hypot of the pair, not either one alone.
+    axis = spec.get("axis", "y")
+    if axis == "y":
+        half_h = float(np.hypot(cam[:, 0], cam[:, 2]).max()) * MARGIN
+        half_v = max(abs(cam[:, 1].min()), abs(cam[:, 1].max())) * MARGIN
+    else:
+        half_h = max(abs(cam[:, 0].min()), abs(cam[:, 0].max())) * MARGIN
+        half_v = float(np.hypot(cam[:, 1], cam[:, 2]).max()) * MARGIN
+    height = int(round(RENDER_W * half_v / half_h))
+
+    corners = np.array([[sx * half_h, sy * half_v, 0.0]
                         for sx in (-1, 1) for sy in (-1, 1)])
     for i, w in enumerate(corners @ R + centre):
         cmd.pseudoatom("box", pos=list(map(float, w)), name=f"c{i}")
     cmd.zoom("box", complete=1)
     cmd.delete("box")
 
+    base = cmd.get_view()          # framing settled; every frame starts here
     step = 360.0 / FRAMES
     for i in range(FRAMES):
+        cmd.set_view(base)
+        cmd.turn(axis, i * step)
         cmd.png(f"{outdir}/f{i:03d}.png", width=RENDER_W, height=height,
                 dpi=150, ray=1)
-        cmd.turn("x", step)
 
 
 def encode(spec, theme, workdir):

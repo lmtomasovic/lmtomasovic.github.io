@@ -234,7 +234,7 @@ section + section { margin-top: 48px; }
 .structure .spin-still img {
   display: block;
   width: 100%;
-  max-width: 480px;
+  max-width: 240px;
   height: auto;
   margin: 0 auto;
 }
@@ -266,7 +266,7 @@ section + section { margin-top: 48px; }
   border-radius: 2px;
   background: var(--chain);
 }
-.key-il2   { --chain: #5d6a79; }
+.key-il2   { --chain: #94a2b2; }
 .key-cd25  { --chain: #4292c6; }
 .key-cd122 { --chain: #3a9e8c; }
 .key-gc    { --chain: #eaf3fa; }
