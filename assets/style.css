@@ -259,7 +259,10 @@ section + section { margin-top: 48px; }
   gap: 6px 16px;
   margin-top: 12px;
 }
-.structure .key { display: inline-flex; align-items: center; gap: 6px; }
+/* Space the swatch with a margin rather than a flex gap. A gap here applies
+   between every flex item, and a label like "γ<sub>c</sub>" is two of them,
+   so the gap would push the subscript away from its own letter. */
+.structure .key { display: inline-flex; align-items: center; }
 .structure .src { opacity: 0.75; }
 .structure .src a { color: inherit; }
 .structure .src a:hover { color: var(--accent); }
@@ -267,6 +270,7 @@ section + section { margin-top: 48px; }
   content: "";
   width: 9px;
   height: 9px;
+  margin-right: 6px;
   border-radius: 2px;
   background: var(--chain);
 }
