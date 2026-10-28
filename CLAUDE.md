@@ -45,6 +45,13 @@ This is Luke Tomasovic's personal website. Read this before making changes.
   Server output terms, which require conspicuous notice wherever output or
   derivatives are published; keep that notice and the terms file beside the
   structure. Do not relabel it as a crystal structure.
+- The bispecifics section carries a third animation, 1IGT, with the variable
+  domains of each Fab arm coloured and labelled Binding Arm 1 / 2 and the rest
+  of the antibody left pale. 1IGT is a conventional monospecific IgG; Luke
+  knows, and asked for it anyway with no caption explaining it, because no
+  intact bispecific IgG exists in the PDB (checked: whole IgGs barely
+  crystallise, and the field solves Fab arms separately). Do not add a caveat
+  line to that figure.
 - Research page is all about immunoengineering and protein design. Three short sections: (1) Conditionally active IL-2/antibody fusion proteins, (2) Computationally designed protein-based therapeutics, (3) Engineering bispecific antibodies. Each has a brief high-level description and a Papers list. Papers use the shared `.entries` list style: a mono `.meta` line (journal, year, and "Review" where it applies) above the linked title. No transplant section, no keywords lines, no presentations.
 - The PEGS 2026 poster file is still in the repo at `assets/pegs-2026-poster.pdf` but nothing links to it. Luke removed the Presentations line and decided not to list BMES 2025.
 - Writing page lists Substack posts in this format: date, category, title (linked), one-line subtitle. Newest first.

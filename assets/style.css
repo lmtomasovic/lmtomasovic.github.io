@@ -274,6 +274,8 @@ section + section { margin-top: 48px; }
 .key-gc      { --chain: #c6dbef; }
 .key-binder  { --chain: #4292c6; }
 .key-endotag { --chain: #c6dbef; }
+.key-arm1    { --chain: #4292c6; }
+.key-arm2    { --chain: #3a9e8c; }
 /* ---------- lists (writing, other, research papers) ---------- */
 
 .entries { list-style: none; margin: 0; padding: 0; }

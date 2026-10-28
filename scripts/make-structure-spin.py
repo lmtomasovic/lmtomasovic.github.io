@@ -76,6 +76,15 @@ FPS = 10             # 60 frames / 10 fps = 6 s per revolution
 CRF = 30
 TRANSPARENCY = 0.62  # surface only; the cartoon inside stays solid
 
+# 1IGT is numbered with antibody insertion codes (52A, 82A-C, 100H-K). PyMOL
+# resi ranges match on the numeric part, so these ranges do pick them up; code
+# that sorts residues with int() does not, and will raise on them.
+# V/C junctions found by sequence motif: the light chain's V domain ends
+# ...TKLEIK at 107 and CL starts RADAAPTV at 108; the heavy chain's ends
+# ...VTVSS at 113 and CH1 starts AKTTAPSV at 114.
+_ARM1 = "(chain A and resi 1-107) or (chain B and resi 1-113)"
+_ARM2 = "(chain C and resi 1-107) or (chain D and resi 1-113)"
+
 STRUCTURES = [
     {
         "stem": "il2-receptor",
@@ -93,7 +102,7 @@ STRUCTURES = [
         # IL-2 against 29.8 A for the N-terminal tip.
         "down": {"tip": "cd122"},
         "right": {"from": "cd122", "to": "gammac"},
-        "roll": 120,
+        "roll": 340,
     },
     {
         "stem": "endotag-fusion",
@@ -111,6 +120,23 @@ STRUCTURES = [
         ],
         "down": {"from": "binder", "to": "endotag"},
         "right": {"long_axis_of": "binder"},
+        "roll": 240,
+    },
+    {
+        "stem": "bispecific-igg",
+        "pdb": "1IGT",
+        "parts": [
+            {"id": "arm1", "sele": _ARM1, "color": "#4292c6"},
+            {"id": "arm2", "sele": _ARM2, "color": "#3a9e8c"},
+            {"id": "scaffold", "sele": f"not (({_ARM1}) or ({_ARM2}))",
+             "color": "#c6dbef"},
+        ],
+        # Stand the Y on its Fc. The light chains sit entirely in the Fab
+        # arms, so pointing away from them points at the Fc, with no reliance
+        # on where the hinge is numbered. Measured on 1IGT this puts the Fc
+        # 40 A below centre and both arms above it, splayed to either side.
+        "down": {"from": "chain A+C", "to": "all"},
+        "right": {"from": "arm1", "to": "arm2"},
         "roll": 0,
     },
 ]
@@ -210,7 +236,11 @@ def render(spec, theme, outdir):
     centre = xyz.mean(0)
     R = view_rotation(spec, centre)
     view = list(cmd.get_view())
-    view[0:9] = R.flatten().tolist()
+    # get_view stores the rotation COLUMN-major. Writing R row-major silently
+    # applies its transpose, which is still a valid rotation, so the render
+    # looks plausible while bearing no relation to the "down" that was asked
+    # for. Transposing here is what makes down_ref actually point down.
+    view[0:9] = R.T.flatten().tolist()
     cmd.set_view(view)
 
     cam = (xyz - centre) @ R.T

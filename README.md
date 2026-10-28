@@ -18,7 +18,7 @@ My personal website. Plain HTML and CSS, no build step, hosted free on GitHub Pa
 | `assets/photo.jpg` | My headshot |
 | `assets/og-card.png` | The preview image shown when the site is shared on LinkedIn, X or Slack |
 | `scripts/make-og-card.py` | Rebuilds that preview image. Only needed if the name, tagline or photo changes |
-| `assets/il2-receptor-*`, `assets/endotag-fusion-*` | The spinning structures on the Research page, each rendered once per theme |
+| `assets/il2-receptor-*`, `assets/endotag-fusion-*`, `assets/bispecific-igg-*` | The spinning structures on the Research page, each rendered once per theme |
 | `scripts/make-structure-spin.py` | Rebuilds those animations, and makes new ones for other projects |
 | `scripts/structures/` | Local structure files the script renders from, with their terms of use |
 | `CNAME` | Points GitHub Pages at luketomasovic.com. Do not delete. |
