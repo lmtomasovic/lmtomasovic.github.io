@@ -269,10 +269,7 @@ section + section { margin-top: 48px; }
 .key-il2   { --chain: #94a2b2; }
 .key-cd25  { --chain: #4292c6; }
 .key-cd122 { --chain: #3a9e8c; }
-.key-gc    { --chain: #eaf3fa; }
-/* gamma-c is nearly white, so its swatch needs an edge to be visible at all
-   against the light background. */
-.key-gc::before { box-shadow: inset 0 0 0 1px var(--line); }
+.key-gc    { --chain: #c6dbef; }
 /* ---------- lists (writing, other, research papers) ---------- */
 
 .entries { list-style: none; margin: 0; padding: 0; }

@@ -78,17 +78,15 @@ STRUCTURES = [
             "D": "#94a2b2",   # IL-2
             "A": "#4292c6",   # CD25   / IL-2R alpha
             "B": "#3a9e8c",   # CD122  / IL-2R beta
-            "C": "#eaf3fa",   # CD132  / common gamma
+            "C": "#c6dbef",   # CD132  / common gamma
         },
         # Spin about screen-y, so whatever points down stays pointing down.
         "axis": "y",
-        # "down" is built from the structure rather than hand-tuned: the
-        # C-termini of IL-2Rbeta and gamma-c are where the membrane would be,
-        # so the direction from IL-2 towards them is down. Measured on 2ERJ,
-        # that puts both stalks ~26-36 A below centre and IL-2Ralpha ~22 A
-        # above it, which is the orientation in the reference figure.
-        "down_from": "D",
-        "down_to": ["B", "C"],
+        # Put IL-2Rbeta's membrane-proximal tip straight below the centre of
+        # the view. Averaging IL-2Rbeta with gamma-c instead leaves neither one
+        # down: their stalks diverge by about 55 degrees in this structure, so
+        # the average sits ~22 degrees off each and the complex looks tilted.
+        "down_ref": "B",
         # Cosmetic: which chain starts on the left. Every azimuth is shown.
         "left_right": ["B", "C"],
     },
@@ -110,14 +108,17 @@ def tail_centre(obj, n=12):
     return np.array([a.coord for a in atoms[-n:]]).mean(0)
 
 
-def view_rotation(spec):
-    """Camera basis that puts the spec's "down" chains at the bottom.
+def view_rotation(spec, centre):
+    """Camera basis putting the down_ref chain's C-terminal tip straight down.
 
     Returns the 3x3 whose rows are the camera's right, up and toward-viewer
     axes in world coordinates, which is the layout PyMOL's get_view uses.
+
+    `centre` must be the point the camera looks at. Measuring "down" from any
+    other origin, such as a different chain's centre of mass, tilts the result
+    by the offset between the two.
     """
-    anchor = np.mean([tail_centre(f"ch{c}") for c in spec["down_to"]], axis=0)
-    down = unit(anchor - np.array(cmd.centerofmass(f"ch{spec['down_from']}")))
+    down = unit(tail_centre(f"ch{spec['down_ref']}") - centre)
     up = -down
 
     a, b = spec["left_right"]
@@ -173,13 +174,14 @@ def render(spec, theme, outdir):
     cmd.set("light_count", 2)
     cmd.set("orthoscopic", 1)
 
-    R = view_rotation(spec)
+    xyz = np.array(cmd.get_coords("all"))
+    centre = xyz.mean(0)
+
+    R = view_rotation(spec, centre)
     view = list(cmd.get_view())
     view[0:9] = R.flatten().tolist()
     cmd.set_view(view)
 
-    xyz = np.array(cmd.get_coords("all"))
-    centre = xyz.mean(0)
     cam = (xyz - centre) @ R.T
 
     # The spin axis keeps its own screen extent; the other two sweep into each
