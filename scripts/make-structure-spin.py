@@ -82,11 +82,15 @@ STRUCTURES = [
         },
         # Spin about screen-y, so whatever points down stays pointing down.
         "axis": "y",
-        # Put IL-2Rbeta's membrane-proximal tip straight below the centre of
-        # the view. Averaging IL-2Rbeta with gamma-c instead leaves neither one
-        # down: their stalks diverge by about 55 degrees in this structure, so
-        # the average sits ~22 degrees off each and the complex looks tilted.
+        # Start from IL-2Rbeta's membrane-proximal tip pointing straight down,
+        # then roll the camera in the viewing plane to the pose Luke picked
+        # from a reference image. The roll was found by rendering a grid of
+        # (roll, azimuth) previews and scoring each against that image on
+        # where the four chain colours sit, so it is matched rather than
+        # eyeballed. Changing either value re-aims the spin, because the
+        # animation turns about whatever ends up vertical.
         "down_ref": "B",
+        "roll": 120,
         # Cosmetic: which chain starts on the left. Every azimuth is shown.
         "left_right": ["B", "C"],
     },
@@ -124,7 +128,13 @@ def view_rotation(spec, centre):
     a, b = spec["left_right"]
     hint = np.array(cmd.centerofmass(f"ch{b}")) - np.array(cmd.centerofmass(f"ch{a}"))
     right = unit(hint - np.dot(hint, up) * up)      # drop the vertical part
-    return np.array([right, up, np.cross(right, up)])
+    toward = np.cross(right, up)
+
+    roll = np.radians(spec.get("roll", 0))
+    if roll:                                        # turn within the viewing plane
+        right, up = (np.cos(roll) * right + np.sin(roll) * up,
+                     -np.sin(roll) * right + np.cos(roll) * up)
+    return np.array([right, up, toward])
 
 
 def fetch(pdb_id):
