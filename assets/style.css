@@ -229,7 +229,9 @@ section + section { margin-top: 48px; }
    unlike the rest of the palette they must NOT change between light and dark.
    The theme rules mirror the --bg rules at the top of this file, honouring
    both the system setting and a data-theme override. */
-.structure { margin: 22px 0 6px; }
+/* No top margin: .area is a grid, so this would not collapse into the
+   paragraph's own bottom margin, it would stack on top of it. */
+.structure { margin: 0 0 6px; }
 .structure .spin,
 .structure .spin-still img {
   display: block;
