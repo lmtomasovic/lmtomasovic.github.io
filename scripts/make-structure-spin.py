@@ -99,10 +99,11 @@ STRUCTURES = [
             {"id": "gammac", "sele": "chain C", "color": "#c6dbef"},
         ],
         # IL-2Rbeta's C-terminal tip is its membrane-proximal end: 48.5 A from
-        # IL-2 against 29.8 A for the N-terminal tip.
+        # IL-2 against 29.8 A for the N-terminal tip. No roll: this figure is
+        # oriented purely by the structure, which only became possible once
+        # the view matrix stopped being transposed.
         "down": {"tip": "cd122"},
         "right": {"from": "cd122", "to": "gammac"},
-        "roll": 340,
     },
     {
         "stem": "endotag-fusion",
