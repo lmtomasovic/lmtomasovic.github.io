@@ -69,7 +69,8 @@ BACKGROUNDS = {"light": "#fbfcfd", "dark": "#12161b"}
 FRAMES = 60          # 60 x 6 deg = 360
 RENDER_W = 900       # downscaled to TARGET_W, which also smooths the edges
 TARGET_W = 460       # displayed at 240 CSS px, so still crisp on a retina screen
-MARGIN = 1.09        # the surface sits a few A outside the atom centres
+MARGIN = 1.04        # proportional slack
+SURFACE_PAD = 5.0    # absolute slack in A, for the surface outside the atoms
 PAD = 24             # breathing room around the molecule, in render px
 FPS = 10             # 60 frames / 10 fps = 6 s per revolution
 CRF = 30
@@ -106,7 +107,7 @@ STRUCTURES = [
             # a structured domain, which the prediction does not support.
             {"id": "linker",  "sele": "resi 243-257", "color": "#5d6a79",
              "surface": False},
-            {"id": "endotag", "sele": "resi 258-381", "color": "#3a9e8c"},
+            {"id": "endotag", "sele": "resi 258-381", "color": "#c6dbef"},
         ],
         "down": {"from": "binder", "to": "endotag"},
         "right": {"long_axis_of": "binder"},
@@ -217,14 +218,24 @@ def render(spec, theme, outdir):
     # other, so that half-extent is hypot of the pair, not either one alone.
     axis = spec.get("axis", "y")
     if axis == "y":
-        half_h = float(np.hypot(cam[:, 0], cam[:, 2]).max()) * MARGIN
-        half_v = max(abs(cam[:, 1].min()), abs(cam[:, 1].max())) * MARGIN
+        half_h = float(np.hypot(cam[:, 0], cam[:, 2]).max())
+        half_v = max(abs(cam[:, 1].min()), abs(cam[:, 1].max()))
     else:
-        half_h = max(abs(cam[:, 0].min()), abs(cam[:, 0].max())) * MARGIN
-        half_v = float(np.hypot(cam[:, 1], cam[:, 2]).max()) * MARGIN
-    height = int(round(RENDER_W * half_v / half_h))
+        half_h = max(abs(cam[:, 0].min()), abs(cam[:, 0].max()))
+        half_v = float(np.hypot(cam[:, 1], cam[:, 2]).max())
 
-    corners = np.array([[sx * half_h, sy * half_v, 0.0]
+    # Render square, to the larger half-extent, and let encode() crop to what
+    # is actually drawn. cmd.zoom fits the CURRENT internal viewport aspect,
+    # while cmd.png then renders at whatever aspect it is given; asking for a
+    # non-square frame therefore silently clipped the wide axis. A square
+    # frame makes the two aspects agree, and costs only render time.
+    # SURFACE_PAD is absolute because the surface stands a roughly constant
+    # ~3 A outside the atom centres, which a percentage margin under-covers
+    # on whichever extent happens to be small.
+    half = max(half_h, half_v) * MARGIN + SURFACE_PAD
+    height = RENDER_W
+
+    corners = np.array([[sx * half, sy * half, 0.0]
                         for sx in (-1, 1) for sy in (-1, 1)])
     for i, w in enumerate(corners @ R + centre):
         cmd.pseudoatom("box", pos=list(map(float, w)), name=f"c{i}")

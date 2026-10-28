@@ -273,7 +273,7 @@ section + section { margin-top: 48px; }
 .key-cd122   { --chain: #3a9e8c; }
 .key-gc      { --chain: #c6dbef; }
 .key-binder  { --chain: #4292c6; }
-.key-endotag { --chain: #3a9e8c; }
+.key-endotag { --chain: #c6dbef; }
 /* ---------- lists (writing, other, research papers) ---------- */
 
 .entries { list-style: none; margin: 0; padding: 0; }
