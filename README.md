@@ -18,8 +18,9 @@ My personal website. Plain HTML and CSS, no build step, hosted free on GitHub Pa
 | `assets/photo.jpg` | My headshot |
 | `assets/og-card.png` | The preview image shown when the site is shared on LinkedIn, X or Slack |
 | `scripts/make-og-card.py` | Rebuilds that preview image. Only needed if the name, tagline or photo changes |
-| `assets/il2-receptor-*` | The spinning structure on the Research page, rendered once per theme |
+| `assets/il2-receptor-*`, `assets/endotag-fusion-*` | The spinning structures on the Research page, each rendered once per theme |
 | `scripts/make-structure-spin.py` | Rebuilds those animations, and makes new ones for other projects |
+| `scripts/structures/` | Local structure files the script renders from, with their terms of use |
 | `CNAME` | Points GitHub Pages at luketomasovic.com. Do not delete. |
 | `CLAUDE.md` | Notes that Claude Code reads before editing the site |
 
@@ -62,9 +63,11 @@ Each animated structure is a short video of the molecule turning, rendered
 twice: once on the light page background and once on the dark one, so it looks
 like part of the page in either theme.
 
-To add one for another project, open `scripts/make-structure-spin.py`, copy the
-block in `STRUCTURES`, and give it a PDB ID, the chains to show and a colour per
-chain. Then:
+To add one for another project, open `scripts/make-structure-spin.py` and copy a
+block in `STRUCTURES`. A structure comes either from the PDB (`"pdb": "2ERJ"`,
+downloaded and cached) or from a local file in `scripts/structures/`. Parts are
+any PyMOL selection, so you can split a complex by chain or a single chain by
+residue range. Then:
 
 ```bash
 brew install pymol ffmpeg
@@ -78,6 +81,14 @@ Rendering takes a few minutes per structure.
 Colours are baked into the video, so the swatches in the figure caption are set
 separately in `assets/style.css` (the `.key-*` rules). If you change a chain
 colour, change it in both places.
+
+**If the structure is a prediction rather than an experimental structure**, say
+so in the caption. The EndoTag figure is an AlphaFold Server model, and those
+Terms of Use require conspicuous notice wherever the output or anything derived
+from it is published, so its caption links to
+[alphafoldserver.com/output-terms](https://alphafoldserver.com/output-terms) and
+the terms file sits next to the structure in `scripts/structures/`. Keep both if
+you keep the figure. AlphaFold Server output is also non-commercial use only.
 
 ## Publishing
 

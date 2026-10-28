@@ -259,6 +259,8 @@ section + section { margin-top: 48px; }
 }
 .structure .key { display: inline-flex; align-items: center; gap: 6px; }
 .structure .src { opacity: 0.75; }
+.structure .src a { color: inherit; }
+.structure .src a:hover { color: var(--accent); }
 .structure .key::before {
   content: "";
   width: 9px;
@@ -266,10 +268,12 @@ section + section { margin-top: 48px; }
   border-radius: 2px;
   background: var(--chain);
 }
-.key-il2   { --chain: #94a2b2; }
-.key-cd25  { --chain: #4292c6; }
-.key-cd122 { --chain: #3a9e8c; }
-.key-gc    { --chain: #c6dbef; }
+.key-il2     { --chain: #94a2b2; }
+.key-cd25    { --chain: #4292c6; }
+.key-cd122   { --chain: #3a9e8c; }
+.key-gc      { --chain: #c6dbef; }
+.key-binder  { --chain: #4292c6; }
+.key-endotag { --chain: #3a9e8c; }
 /* ---------- lists (writing, other, research papers) ---------- */
 
 .entries { list-style: none; margin: 0; padding: 0; }

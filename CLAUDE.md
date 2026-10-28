@@ -36,6 +36,15 @@ This is Luke Tomasovic's personal website. Read this before making changes.
   video AND written in the `.key-*` rules in style.css, so they have to be
   changed in both places. Caption labels are IL-2, IL-2Ralpha, IL-2Rbeta,
   gamma-c; Luke does not want the PDB ID shown.
+- The designed-therapeutics section carries a second animation: an scFv joined
+  by a flexible linker to an EndoTag, from a local AlphaFold Server model in
+  `scripts/structures/`. Two things about it are deliberate. The linker is
+  drawn as a bare ribbon with no surface because it is predicted disordered
+  (mean pLDDT 32), and giving it a surface would present it as a structured
+  domain. And the caption says "Predicted model" and links to the AlphaFold
+  Server output terms, which require conspicuous notice wherever output or
+  derivatives are published; keep that notice and the terms file beside the
+  structure. Do not relabel it as a crystal structure.
 - Research page is all about immunoengineering and protein design. Three short sections: (1) Conditionally active IL-2/antibody fusion proteins, (2) Computationally designed protein-based therapeutics, (3) Engineering bispecific antibodies. Each has a brief high-level description and a Papers list. Papers use the shared `.entries` list style: a mono `.meta` line (journal, year, and "Review" where it applies) above the linked title. No transplant section, no keywords lines, no presentations.
 - The PEGS 2026 poster file is still in the repo at `assets/pegs-2026-poster.pdf` but nothing links to it. Luke removed the Presentations line and decided not to list BMES 2025.
 - Writing page lists Substack posts in this format: date, category, title (linked), one-line subtitle. Newest first.
