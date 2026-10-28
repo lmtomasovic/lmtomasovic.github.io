@@ -71,7 +71,9 @@ RENDER_W = 900       # downscaled to TARGET_W, which also smooths the edges
 TARGET_W = 460       # displayed at 240 CSS px, so still crisp on a retina screen
 MARGIN = 1.04        # proportional slack
 SURFACE_PAD = 5.0    # absolute slack in A, for the surface outside the atoms
-PAD = 24             # breathing room around the molecule, in render px
+PAD = 10             # breathing room around the molecule, in render px.
+                     # Keep a little: at 0 the molecule touches the frame
+                     # edge, which reads as clipped even though it is not.
 FPS = 10             # 60 frames / 10 fps = 6 s per revolution
 CRF = 30
 TRANSPARENCY = 0.62  # surface only; the cartoon inside stays solid
